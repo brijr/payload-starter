@@ -10,8 +10,8 @@ This is a modern SaaS starter kit built with Next.js 15 and Payload CMS, designe
 
 ## Tech Stack
 
-- **Framework**: Next.js 15.4.5 with App Router
-- **CMS**: Payload CMS 3.49.1
+- **Framework**: Next.js 15.5.3 with App Router
+- **CMS**: Payload CMS 3.55.1
 - **Database**: PostgreSQL with Payload adapter
 - **Language**: TypeScript 5.7.3
 - **Styling**: Tailwind CSS v4 with Shadcn UI components
@@ -123,7 +123,7 @@ R2_BUCKET=YOUR_BUCKET_HERE
 R2_ENDPOINT=YOUR_ENDPOINT_HERE
 ```
 
-Note: `APP_URL` is no longer required in the latest version.
+Note: The example shows minimal required variables. Additional optional variables may be needed for S3/R2 storage.
 
 ## Important Files
 
