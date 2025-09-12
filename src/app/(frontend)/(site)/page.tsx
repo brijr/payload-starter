@@ -19,7 +19,7 @@ const ToDelete = () => {
           </a>
         </p>
         <p>This starter uses Payload, Postgres, Resend, and Vercel Blob.</p>
-        <p>
+        <p className="mb-8">
           Created by{' '}
           <a className="underline text-primary" href="https://brijr.dev">
             @brijr

@@ -1,4 +1,4 @@
-import { Section, Container, Prose } from '@/components/ds'
+import { Section, Container } from '@/components/ds'
 
 import { redirect } from 'next/navigation'
 import { getUser } from '@/lib/auth'

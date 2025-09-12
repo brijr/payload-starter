@@ -12,7 +12,7 @@ import Link from 'next/link'
 import type { User } from '@/payload-types'
 
 export const AppNav = async () => {
-  const user: User | null = await getUser()
+  const _user: User | null = await getUser()
 
   return (
     <Nav

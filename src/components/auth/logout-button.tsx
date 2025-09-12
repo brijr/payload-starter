@@ -46,8 +46,6 @@ export const LogoutButton = () => {
 }
 
 export const LogoutIconButton = () => {
-  const router = useRouter()
-
   const handleLogout = async () => {
     await clearAuthCookies()
   }
