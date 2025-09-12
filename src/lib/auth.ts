@@ -1,21 +1,20 @@
 'use server'
 
-import { cookies, headers as getHeaders } from 'next/headers'
-import { getPayload } from 'payload'
-import type { Payload } from 'payload'
-import config from '@payload-config'
-import configPromise from '@payload-config'
-import { redirect } from 'next/navigation'
+import { auth } from '@/auth'
 import type { User } from '@/payload-types'
-import { validateEmail, validatePassword } from './validation'
+import { default as config, default as configPromise } from '@payload-config'
+import { randomBytes } from 'crypto'
+import { cookies, headers as getHeaders } from 'next/headers'
+import { redirect } from 'next/navigation'
+import type { Payload } from 'payload'
+import { getPayload } from 'payload'
 import {
+  passwordChangedEmailTemplate,
+  passwordResetEmailTemplate,
   sendEmail,
   verificationEmailTemplate,
-  passwordResetEmailTemplate,
-  passwordChangedEmailTemplate,
 } from './email'
-import { randomBytes } from 'crypto'
-import { auth } from '@/auth'
+import { validateEmail, validatePassword } from './validation'
 
 // Auth Types
 
@@ -72,15 +71,15 @@ export async function getUser(): Promise<User | null> {
     const session = await auth()
     if (session?.user?.email) {
       const payload: Payload = await getPayload({ config: await configPromise })
-      
+
       // Find user by email in Payload
       const users = await payload.find({
         collection: 'users',
         where: {
-          email: { equals: session.user.email }
+          email: { equals: session.user.email },
         },
       })
-      
+
       if (users.docs.length > 0) {
         return users.docs[0] as User
       }

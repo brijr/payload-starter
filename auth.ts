@@ -22,6 +22,7 @@ const config = {
   session: {
     strategy: 'jwt' as const,
   },
+  debug: process.env.NODE_ENV === 'development',
   callbacks: {
     ...authConfig.callbacks,
     async signIn({ user, account, profile }: any) {
@@ -36,13 +37,13 @@ const config = {
       if (user) {
         token.role = user?.role || 'user'
       }
-      
+
       // Store OAuth provider info
       if (account) {
         token.provider = account.provider
         token.providerId = account.providerAccountId
       }
-      
+
       return token
     },
     async session({ session, token }: any) {
@@ -60,5 +61,5 @@ const config = {
 export const { handlers, auth, signIn, signOut } = NextAuth(
   withPayload(config, {
     payloadConfig: configPromise,
-  })
+  }),
 )
