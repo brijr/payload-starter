@@ -29,10 +29,9 @@ export const Users: CollectionConfig = {
     },
     {
       name: 'emailVerified',
-      type: 'checkbox',
-      defaultValue: false,
+      type: 'date',
       admin: {
-        description: 'Has the user verified their email address',
+        description: 'Date when the user verified their email address (null if not verified)',
       },
     },
     {
@@ -61,6 +60,33 @@ export const Users: CollectionConfig = {
       type: 'date',
       admin: {
         hidden: true,
+      },
+    },
+    {
+      name: 'provider',
+      type: 'select',
+      options: [
+        { label: 'Email', value: 'credentials' },
+        { label: 'Google', value: 'google' },
+      ],
+      defaultValue: 'credentials',
+      admin: {
+        description: 'Authentication provider used to create this account',
+      },
+    },
+    {
+      name: 'providerId',
+      type: 'text',
+      admin: {
+        description: 'Provider-specific user ID',
+        hidden: true,
+      },
+    },
+    {
+      name: 'image',
+      type: 'text',
+      admin: {
+        description: 'Profile image URL from OAuth provider',
       },
     },
     // If you want to add a username field, uncomment the following lines

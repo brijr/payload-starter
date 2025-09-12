@@ -15,6 +15,7 @@ import {
   passwordChangedEmailTemplate,
 } from './email'
 import { randomBytes } from 'crypto'
+import { auth } from '@/auth'
 
 // Auth Types
 
@@ -62,14 +63,32 @@ export type ResetPasswordResponse = {
 // Auth Actions
 
 /**
- * Get the currently authenticated user
+ * Get the currently authenticated user (supports both Payload and OAuth users)
  * @returns The authenticated user or null if not authenticated
  */
 export async function getUser(): Promise<User | null> {
   try {
+    // First try to get NextAuth session (for OAuth users)
+    const session = await auth()
+    if (session?.user?.email) {
+      const payload: Payload = await getPayload({ config: await configPromise })
+      
+      // Find user by email in Payload
+      const users = await payload.find({
+        collection: 'users',
+        where: {
+          email: { equals: session.user.email }
+        },
+      })
+      
+      if (users.docs.length > 0) {
+        return users.docs[0] as User
+      }
+    }
+
+    // Fallback to Payload auth (for email/password users)
     const headers = await getHeaders()
     const payload: Payload = await getPayload({ config: await configPromise })
-
     const { user } = await payload.auth({ headers })
     return user || null
   } catch (error) {
@@ -225,17 +244,18 @@ export async function registerUser({ email, password }: RegisterParams): Promise
       const verificationToken = randomBytes(32).toString('hex')
       const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
 
-      // Create the user
+      // Create the user with auth data
       await payload.create({
         collection: 'users',
         data: {
           email,
-          password,
           role: 'user',
-          emailVerified: false,
+          emailVerified: null, // null = not verified, date = verified
           emailVerificationToken: verificationToken,
           emailVerificationExpires: verificationExpires.toISOString(),
-        },
+          provider: 'credentials',
+          password, // Include password in data
+        } as any, // Type assertion needed due to payload-authjs plugin transforming the interface
       })
 
       // Send verification email
@@ -420,7 +440,7 @@ export async function resetPassword(
         password: newPassword,
         passwordResetToken: null,
         passwordResetExpires: null,
-      },
+      } as any,
     })
 
     // Send confirmation email
@@ -461,7 +481,7 @@ export async function resendVerification(
     const users = await payload.find({
       collection: 'users',
       where: {
-        and: [{ email: { equals: email } }, { emailVerified: { equals: false } }],
+        and: [{ email: { equals: email } }, { emailVerified: { equals: null } }],
       },
     })
 

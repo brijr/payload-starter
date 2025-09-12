@@ -4,12 +4,14 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import { fileURLToPath } from 'url'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
+import { authjsPlugin } from 'payload-authjs'
 
 import sharp from 'sharp'
 import path from 'node:path'
 
 import { Users } from '@/collections/Users'
 import { Media } from '@/collections/Media'
+import { authConfig } from '../auth.config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -41,6 +43,9 @@ export default buildConfig({
         media: true,
       },
       token: process.env.BLOB_READ_WRITE_TOKEN || '',
+    }),
+    authjsPlugin({
+      authjsConfig: authConfig,
     }),
   ],
 })

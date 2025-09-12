@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
       collection: 'users',
       id: user.id,
       data: {
-        emailVerified: true,
+        emailVerified: new Date().toISOString(),
         emailVerificationToken: null,
         emailVerificationExpires: null,
       },

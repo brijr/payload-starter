@@ -1,6 +1,7 @@
 'use client'
 
 import { SubmitButton } from './submit-button'
+import { GoogleOAuthButton } from '@/components/auth/google-oauth-button'
 import { toast } from 'sonner'
 
 import { registerUser } from '@/lib/auth'
@@ -108,52 +109,65 @@ export const RegisterForm = () => {
   }
 
   return (
-    <form className="grid gap-6 my-6" onSubmit={handleSubmit}>
-      <input
-        type="email"
-        name="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        autoComplete="email"
-        placeholder="Email"
-        className="w-full focus:outline-none border-b pb-2"
-        required
-      />
-
-      <input
-        type="password"
-        name="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        autoComplete="new-password"
-        placeholder="Password"
-        className="w-full focus:outline-none border-b pb-2"
-        required
-      />
-
-      {password && (
-        <div className="mt-1">
-          <div className="flex gap-1 h-1 mt-1">
-            <div
-              className={`h-full w-1/3 rounded-l ${passwordStrength ? 'bg-red-500' : 'bg-gray-200'}`}
-            ></div>
-            <div
-              className={`h-full w-1/3 ${passwordStrength === 'medium' || passwordStrength === 'strong' ? 'bg-yellow-500' : 'bg-gray-200'}`}
-            ></div>
-            <div
-              className={`h-full w-1/3 rounded-r ${passwordStrength === 'strong' ? 'bg-green-500' : 'bg-gray-200'}`}
-            ></div>
-          </div>
-          {passwordFeedback && <p className="text-xs text-amber-600 mt-1">{passwordFeedback}</p>}
+    <div className="grid gap-6 my-6">
+      <GoogleOAuthButton text="Sign up with Google" />
+      
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t" />
         </div>
-      )}
-
-      <div className="text-xs text-muted-foreground mt-2">
-        Password must be at least 8 characters with uppercase, lowercase, number, and special
-        character.
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+        </div>
       </div>
 
-      <SubmitButton loading={isPending} text="Sign Up" />
-    </form>
+      <form className="grid gap-6" onSubmit={handleSubmit}>
+        <input
+          type="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
+          placeholder="Email"
+          className="w-full focus:outline-none border-b pb-2"
+          required
+        />
+
+        <input
+          type="password"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="new-password"
+          placeholder="Password"
+          className="w-full focus:outline-none border-b pb-2"
+          required
+        />
+
+        {password && (
+          <div className="mt-1">
+            <div className="flex gap-1 h-1 mt-1">
+              <div
+                className={`h-full w-1/3 rounded-l ${passwordStrength ? 'bg-red-500' : 'bg-gray-200'}`}
+              ></div>
+              <div
+                className={`h-full w-1/3 ${passwordStrength === 'medium' || passwordStrength === 'strong' ? 'bg-yellow-500' : 'bg-gray-200'}`}
+              ></div>
+              <div
+                className={`h-full w-1/3 rounded-r ${passwordStrength === 'strong' ? 'bg-green-500' : 'bg-gray-200'}`}
+              ></div>
+            </div>
+            {passwordFeedback && <p className="text-xs text-amber-600 mt-1">{passwordFeedback}</p>}
+          </div>
+        )}
+
+        <div className="text-xs text-muted-foreground mt-2">
+          Password must be at least 8 characters with uppercase, lowercase, number, and special
+          character.
+        </div>
+
+        <SubmitButton loading={isPending} text="Sign Up with Email" />
+      </form>
+    </div>
   )
 }

@@ -3,6 +3,7 @@ import '@/globals.css'
 import { Geist as FontSans } from 'next/font/google'
 import { Geist_Mono as FontMono } from 'next/font/google'
 import { ThemeProvider } from '@/components/theme/theme-provider'
+import { SessionProvider } from 'next-auth/react'
 import { Analytics } from '@vercel/analytics/next'
 import { Toaster } from 'sonner'
 
@@ -45,15 +46,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
     >
       <body className={cn('flex flex-col min-h-screen', fontSans.className)}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster richColors expand={true} closeButton />
-        </ThemeProvider>
+        <SessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <Toaster richColors expand={true} closeButton />
+          </ThemeProvider>
+        </SessionProvider>
         <Analytics />
       </body>
     </html>

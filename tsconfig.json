@@ -28,6 +28,9 @@
       ],
       "@payload-config": [
         "./src/payload.config.ts"
+      ],
+      "@/auth": [
+        "./auth.ts"
       ]
     },
     "target": "ES2022",

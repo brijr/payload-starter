@@ -118,33 +118,40 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
-  role: 'admin' | 'user';
+  id: string;
+  email: string;
   /**
-   * Has the user verified their email address
+   * Date when the user verified their email address (null if not verified)
    */
-  emailVerified?: boolean | null;
+  emailVerified?: string | null;
+  name?: string | null;
+  /**
+   * Profile image URL from OAuth provider
+   */
+  image?: string | null;
+  role: 'admin' | 'user';
   emailVerificationToken?: string | null;
   emailVerificationExpires?: string | null;
   passwordResetToken?: string | null;
   passwordResetExpires?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
+  /**
+   * Authentication provider used to create this account
+   */
+  provider?: ('credentials' | 'google') | null;
+  /**
+   * Provider-specific user ID
+   */
+  providerId?: string | null;
+  accounts?:
     | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
+        provider: string;
+        providerAccountId: string;
+        type: string;
+        id?: string | null;
       }[]
     | null;
-  password?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -174,7 +181,7 @@ export interface PayloadLockedDocument {
   document?:
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null)
     | ({
         relationTo: 'media';
@@ -183,7 +190,7 @@ export interface PayloadLockedDocument {
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -196,7 +203,7 @@ export interface PayloadPreference {
   id: number;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -227,28 +234,28 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  role?: T;
+  id?: T;
+  email?: T;
   emailVerified?: T;
+  name?: T;
+  image?: T;
+  role?: T;
   emailVerificationToken?: T;
   emailVerificationExpires?: T;
   passwordResetToken?: T;
   passwordResetExpires?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
+  provider?: T;
+  providerId?: T;
+  accounts?:
     | T
     | {
+        provider?: T;
+        providerAccountId?: T;
+        type?: T;
         id?: T;
-        createdAt?: T;
-        expiresAt?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
