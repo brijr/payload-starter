@@ -1,12 +1,14 @@
 'use client'
 
+import { Field, FieldGroup, FieldLabel, FieldDescription, FieldError } from '@/components/ui/field'
 import { SubmitButton } from './submit-button'
-import { toast } from 'sonner'
+import { Input } from '@/components/ui/input'
 
 import { registerUser } from '@/lib/auth'
 import { validatePassword, validateEmail } from '@/lib/validation'
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
+import { toast } from 'sonner'
 
 import type { RegisterResponse } from '@/lib/auth'
 
@@ -108,52 +110,59 @@ export const RegisterForm = () => {
   }
 
   return (
-    <form className="grid gap-6 my-6" onSubmit={handleSubmit}>
-      <input
-        type="email"
-        name="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        autoComplete="email"
-        placeholder="Email"
-        className="w-full focus:outline-none border-b pb-2"
-        required
-      />
+    <form className="my-6" onSubmit={handleSubmit}>
+      <FieldGroup>
+        <Field>
+          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <Input
+            id="email"
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            placeholder="email@example.com"
+            required
+          />
+        </Field>
 
-      <input
-        type="password"
-        name="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        autoComplete="new-password"
-        placeholder="Password"
-        className="w-full focus:outline-none border-b pb-2"
-        required
-      />
+        <Field data-invalid={!!passwordFeedback}>
+          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <Input
+            id="password"
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="new-password"
+            placeholder="Enter a strong password"
+            aria-invalid={!!passwordFeedback}
+            required
+          />
+          {password && (
+            <>
+              <div className="flex gap-1 h-1 mt-2">
+                <div
+                  className={`h-full w-1/3 rounded-l transition-colors ${passwordStrength ? 'bg-red-500' : 'bg-gray-200'}`}
+                ></div>
+                <div
+                  className={`h-full w-1/3 transition-colors ${passwordStrength === 'medium' || passwordStrength === 'strong' ? 'bg-yellow-500' : 'bg-gray-200'}`}
+                ></div>
+                <div
+                  className={`h-full w-1/3 rounded-r transition-colors ${passwordStrength === 'strong' ? 'bg-green-500' : 'bg-gray-200'}`}
+                ></div>
+              </div>
+              {passwordFeedback && <FieldError>{passwordFeedback}</FieldError>}
+            </>
+          )}
+          <FieldDescription>
+            Password must be at least 8 characters with uppercase, lowercase, number, and special
+            character.
+          </FieldDescription>
+        </Field>
 
-      {password && (
-        <div className="mt-1">
-          <div className="flex gap-1 h-1 mt-1">
-            <div
-              className={`h-full w-1/3 rounded-l ${passwordStrength ? 'bg-red-500' : 'bg-gray-200'}`}
-            ></div>
-            <div
-              className={`h-full w-1/3 ${passwordStrength === 'medium' || passwordStrength === 'strong' ? 'bg-yellow-500' : 'bg-gray-200'}`}
-            ></div>
-            <div
-              className={`h-full w-1/3 rounded-r ${passwordStrength === 'strong' ? 'bg-green-500' : 'bg-gray-200'}`}
-            ></div>
-          </div>
-          {passwordFeedback && <p className="text-xs text-amber-600 mt-1">{passwordFeedback}</p>}
-        </div>
-      )}
-
-      <div className="text-xs text-muted-foreground mt-2">
-        Password must be at least 8 characters with uppercase, lowercase, number, and special
-        character.
-      </div>
-
-      <SubmitButton loading={isPending} text="Sign Up" />
+        <SubmitButton loading={isPending} text="Sign Up" />
+      </FieldGroup>
     </form>
   )
 }

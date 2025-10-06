@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { forgotPassword } from '@/lib/auth'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
+import { Field, FieldGroup, FieldLabel, FieldDescription } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
 
 export function ForgotPasswordForm() {
   const [email, setEmail] = useState('')
@@ -58,21 +60,29 @@ export function ForgotPasswordForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-6 my-6">
-      <input
-        type="email"
-        name="email"
-        autoComplete="email"
-        placeholder="Email address"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="w-full focus:outline-none border-b pb-2 h-8"
-        required
-      />
+    <form onSubmit={handleSubmit} className="my-6">
+      <FieldGroup>
+        <Field>
+          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <Input
+            id="email"
+            type="email"
+            name="email"
+            autoComplete="email"
+            placeholder="email@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <FieldDescription>
+            Enter your email address and we&apos;ll send you a password reset link.
+          </FieldDescription>
+        </Field>
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? 'Sending...' : 'Send Reset Link'}
-      </Button>
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? 'Sending...' : 'Send Reset Link'}
+        </Button>
+      </FieldGroup>
     </form>
   )
 }

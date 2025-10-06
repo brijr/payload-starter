@@ -240,10 +240,54 @@ The project is configured for Vercel deployment:
 3. Ensure dark mode compatibility
 
 ### Working with Forms
-1. Use the existing form components as examples
+1. Use shadcn Field components for all new forms (see migrated auth forms for examples)
 2. Implement proper validation using `/src/lib/validation.ts`
 3. Handle form submissions with Server Actions
 4. Use toast notifications for user feedback
+
+#### Form Component Structure
+Forms should use the Field component family for accessibility and consistency:
+
+```tsx
+import { Field, FieldGroup, FieldLabel, FieldDescription, FieldError } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+
+<form onSubmit={handleSubmit}>
+  <FieldGroup>
+    <Field>
+      <FieldLabel htmlFor="email">Email</FieldLabel>
+      <Input
+        id="email"
+        type="email"
+        name="email"
+        placeholder="email@example.com"
+        required
+      />
+      <FieldDescription>Optional helper text</FieldDescription>
+    </Field>
+
+    <Field data-invalid={hasError}>
+      <FieldLabel htmlFor="password">Password</FieldLabel>
+      <Input
+        id="password"
+        type="password"
+        name="password"
+        aria-invalid={hasError}
+        required
+      />
+      {hasError && <FieldError>Error message here</FieldError>}
+    </Field>
+  </FieldGroup>
+</form>
+```
+
+- Use `Field` to wrap each form field
+- Use `FieldGroup` to organize multiple fields
+- Use `FieldLabel` with `htmlFor` attribute for accessibility
+- Use `FieldDescription` for helper text
+- Use `FieldError` to display validation errors
+- Set `data-invalid` on Field and `aria-invalid` on Input for error states
+- For horizontal layouts (e.g., checkbox with label), use `orientation="horizontal"` on Field
 
 ### Email and Authentication Features
 1. Email verification is automatic on registration

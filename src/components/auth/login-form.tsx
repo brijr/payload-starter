@@ -1,12 +1,16 @@
 'use client'
 
+import { Field, FieldGroup, FieldLabel, FieldDescription } from '@/components/ui/field'
 import { SubmitButton } from '@/components/auth/submit-button'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Input } from '@/components/ui/input'
+
 import Link from 'next/link'
-import { toast } from 'sonner'
 
 import { loginUser } from '@/lib/auth'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 import type { LoginResponse } from '@/lib/auth'
 
@@ -59,44 +63,48 @@ export const LoginForm = () => {
   }
 
   return (
-    <form className="grid gap-6 my-6" onSubmit={handleSubmit}>
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        autoComplete="email"
-        className="w-full focus:outline-none border-b pb-2 h-8"
-        required
-      />
+    <form className="my-6" onSubmit={handleSubmit}>
+      <FieldGroup>
+        <Field>
+          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <Input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="email@example.com"
+            autoComplete="email"
+            required
+          />
+        </Field>
 
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        autoComplete="current-password"
-        className="w-full focus:outline-none border-b pb-2 h-8"
-        required
-      />
-      <div className="text-xs text-muted-foreground">
-        <Link href="/forgot-password" className="hover:underline">
-          Forgot password?
-        </Link>
-      </div>
+        <Field>
+          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <Input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="Enter your password"
+            autoComplete="current-password"
+            required
+          />
+          <FieldDescription>
+            <Link href="/forgot-password" className="hover:underline">
+              Forgot password?
+            </Link>
+          </FieldDescription>
+        </Field>
 
-      <div className="flex items-center space-x-2">
-        <input
-          type="checkbox"
-          id="remember-me"
-          checked={rememberMe}
-          onChange={(e) => setRememberMe(e.target.checked)}
-          className="rounded border-gray-300 text-primary focus:ring-primary"
-        />
-        <label htmlFor="remember-me" className="text-sm text-muted-foreground cursor-pointer">
-          Remember me for 30 days
-        </label>
-      </div>
+        <Field orientation="horizontal">
+          <Checkbox
+            id="remember-me"
+            checked={rememberMe}
+            onCheckedChange={(checked) => setRememberMe(checked === true)}
+          />
+          <FieldLabel htmlFor="remember-me">Remember me for 30 days</FieldLabel>
+        </Field>
 
-      <SubmitButton loading={isPending} text="Login" />
+        <SubmitButton loading={isPending} text="Login" />
+      </FieldGroup>
     </form>
   )
 }

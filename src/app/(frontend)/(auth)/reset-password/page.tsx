@@ -8,6 +8,8 @@ import { Section, Container } from '@/components/ds'
 import { Button } from '@/components/ui/button'
 import { AuthBox } from '@/components/auth/auth-box'
 import { toast } from 'sonner'
+import { Field, FieldGroup, FieldLabel, FieldDescription } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
 
 function ResetPasswordForm() {
   const [password, setPassword] = useState('')
@@ -138,45 +140,51 @@ function ResetPasswordForm() {
               </Button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="grid gap-6 my-6">
-              <input
-                type="email"
-                value={email}
-                disabled
-                className="w-full focus:outline-none border-b pb-2 h-8 bg-muted text-muted-foreground"
-              />
+            <form onSubmit={handleSubmit} className="my-6">
+              <FieldGroup>
+                <Field>
+                  <FieldLabel htmlFor="email">Email</FieldLabel>
+                  <Input id="email" type="email" value={email} disabled />
+                </Field>
 
-              <input
-                type="password"
-                name="password"
-                autoComplete="new-password"
-                placeholder="New password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full focus:outline-none border-b pb-2 h-8"
-                required
-              />
+                <Field>
+                  <FieldLabel htmlFor="password">New Password</FieldLabel>
+                  <Input
+                    id="password"
+                    type="password"
+                    name="password"
+                    autoComplete="new-password"
+                    placeholder="Enter your new password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </Field>
 
-              <input
-                type="password"
-                name="confirmPassword"
-                autoComplete="new-password"
-                placeholder="Confirm new password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full focus:outline-none border-b pb-2 h-8"
-                required
-              />
+                <Field>
+                  <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    name="confirmPassword"
+                    autoComplete="new-password"
+                    placeholder="Confirm your new password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </Field>
 
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? 'Resetting...' : 'Reset Password'}
-              </Button>
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? 'Resetting...' : 'Reset Password'}
+                </Button>
 
-              <p className="text-muted-foreground">
-                <Link className="text-foreground" href="/login">
-                  Back to sign in
-                </Link>
-              </p>
+                <FieldDescription className="text-center">
+                  <Link className="text-foreground hover:underline" href="/login">
+                    Back to sign in
+                  </Link>
+                </FieldDescription>
+              </FieldGroup>
             </form>
           )}
         </AuthBox>
