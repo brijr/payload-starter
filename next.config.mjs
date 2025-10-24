@@ -4,7 +4,7 @@ import { withPayload } from '@payloadcms/next/withPayload'
 const nextConfig = {
   // Your Next.js config here
   output: 'standalone', // Required for Docker deployment
-  
+
   // Security headers
   async headers() {
     return [
