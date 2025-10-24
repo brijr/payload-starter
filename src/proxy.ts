@@ -6,7 +6,7 @@ const PROTECTED_ROUTES = ['/dashboard']
 // Define routes that should redirect to dashboard if already authenticated
 const AUTH_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password']
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = request.cookies.get('payload-token')?.value
 
