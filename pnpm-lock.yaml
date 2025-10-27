@@ -12,22 +12,22 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.64.0(react@19.2.0))
       '@payloadcms/db-postgres':
-        specifier: 3.61.1
+        specifier: latest
         version: 3.61.1(payload@3.61.1(graphql@16.11.0)(typescript@5.7.3))
       '@payloadcms/next':
-        specifier: 3.61.1
+        specifier: latest
         version: 3.61.1(@types/react@19.0.7)(graphql@16.11.0)(monaco-editor@0.52.2)(next@16.0.0(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.7.3)
       '@payloadcms/payload-cloud':
-        specifier: 3.61.1
+        specifier: latest
         version: 3.61.1(payload@3.61.1(graphql@16.11.0)(typescript@5.7.3))
       '@payloadcms/richtext-lexical':
-        specifier: 3.61.1
+        specifier: latest
         version: 3.61.1(@faceless-ui/modal@3.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@faceless-ui/scroll-info@2.0.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@payloadcms/next@3.61.1(@types/react@19.0.7)(graphql@16.11.0)(monaco-editor@0.52.2)(next@16.0.0(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.7.3))(@types/react@19.0.7)(monaco-editor@0.52.2)(next@16.0.0(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.7.3)(yjs@13.6.23)
       '@payloadcms/storage-s3':
-        specifier: 3.61.1
+        specifier: latest
         version: 3.61.1(@types/react@19.0.7)(monaco-editor@0.52.2)(next@16.0.0(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.7.3)
       '@payloadcms/storage-vercel-blob':
-        specifier: 3.61.1
+        specifier: latest
         version: 3.61.1(@types/react@19.0.7)(monaco-editor@0.52.2)(next@16.0.0(@babel/core@7.28.5)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.77.4))(payload@3.61.1(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.7.3)
       '@radix-ui/react-accordion':
         specifier: ^1.2.12
@@ -147,7 +147,7 @@ importers:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       payload:
-        specifier: 3.61.1
+        specifier: latest
         version: 3.61.1(graphql@16.11.0)(typescript@5.7.3)
       postcss:
         specifier: ^8.5.6
