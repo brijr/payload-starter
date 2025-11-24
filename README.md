@@ -8,6 +8,9 @@ A modern, open-source SaaS starter kit built with Next.js 15 and Payload CMS, de
 
 [payloadstarter.dev](https://payloadstarter.dev)
 
+> Version with Clerk: [payload-clerk](https://github.com/brijr/payload-clerk)
+> Version with WorkOS: [payload-workos](https://github.com/brijr/payload-workos)
+
 ## Features
 
 - **Authentication System**
