@@ -1,6 +1,6 @@
 # Payload App Starter
 
-A modern, open-source SaaS starter kit built with Next.js 15 and Payload CMS, designed to accelerate your SaaS development.
+A modern, open-source SaaS starter kit built with Next.js 16 and Payload CMS 3, designed to accelerate your SaaS development.
 
 ![Payload SaaS Starter](https://payloadstarter.dev/opengraph-image.jpg)
 
@@ -8,213 +8,302 @@ A modern, open-source SaaS starter kit built with Next.js 15 and Payload CMS, de
 
 [payloadstarter.dev](https://payloadstarter.dev)
 
-> Version with Clerk: [payload-clerk](https://github.com/brijr/payload-clerk)
-> Version with WorkOS: [payload-workos](https://github.com/brijr/payload-workos)
+> **Other Versions:**
+> - [payload-clerk](https://github.com/brijr/payload-clerk) - With Clerk authentication
+> - [payload-workos](https://github.com/brijr/payload-workos) - With WorkOS authentication
+> - [payload-blog](https://github.com/brijr/payload-blog) - Blog starter template
 
 ## Features
 
-- **Authentication System**
-  - Secure user authentication with HTTP-only cookies
-  - Email/password registration and login
-  - Email verification with automatic emails
-  - Password reset functionality (forgot password flow)
-  - Resend verification email capability
-  - Role-based access control (admin/user)
-  - Password strength validation
-  - "Remember me" functionality
-  - Protected routes with middleware
-  - Toast notifications for all auth feedback
+### Authentication System
 
-- **Modern Tech Stack**
-  - Next.js 15+ with App Router
-  - Payload CMS 3+ for content management
-  - TypeScript 5+ for type safety
-  - PostgreSQL database with Payload adapter
-  - Tailwind 4+ for styling
-  - shadcn/ui components
-  - Dark/light mode with theme persistence
-  - Resend for transactional emails
-  - Vercel Blob Storage (or S3/R2)
+- Secure HTTP-only cookie-based authentication
+- Email/password registration and login
+- Email verification with automatic emails
+- Password reset flow (forgot password)
+- Resend verification email capability
+- Role-based access control (admin/user)
+- Password strength validation
+- "Remember me" functionality
+- Protected routes via middleware
+- Toast notifications for auth feedback
 
-- **Developer Experience**
-  - Clean project structure
-  - Server components and actions
-  - Reusable design system components
-  - Type-safe APIs with auto-generated types
-  - Cross-platform support with cross-env
-  - Built-in security headers
-  - Docker support included
-  - Vercel deployment ready
+### Modern Tech Stack
 
-## Getting Started
+| Category | Technology |
+|----------|------------|
+| Framework | Next.js 16 with App Router |
+| CMS | Payload CMS 3.67 |
+| Language | TypeScript 5.7 |
+| Database | PostgreSQL |
+| Styling | Tailwind CSS 4 |
+| Components | shadcn/ui + Radix UI |
+| Email | Resend |
+| Storage | Vercel Blob / S3 / R2 |
+
+### Developer Experience
+
+- Server-first architecture with React Server Components
+- Auto-generated TypeScript types from Payload collections
+- Reusable design system components
+- Built-in security headers
+- Docker support included
+- Vercel deployment ready
+
+## Quick Start
 
 ### Prerequisites
 
-- Node.js and pnpm
-- PostgreSQL database
-- Blob Storage (Vercel Blob or S3/R2)
-- Resend account for email functionality (optional but recommended)
+- **Node.js**: v18.20.2+ or v20.9.0+
+- **Package Manager**: pnpm
+- **Database**: PostgreSQL
+- **Storage**: Vercel Blob, AWS S3, or Cloudflare R2
 
 ### Installation
 
-1. Clone the repository:
+```bash
+# Clone the repository
+git clone https://github.com/brijr/payload-starter.git
+cd payload-starter
 
-   ```bash
-   git clone https://github.com/brijr/payload-starter.git
-   cd payload-starter
-   ```
+# Install dependencies
+pnpm install
 
-2. Install dependencies:
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your credentials
 
-   ```bash
-   pnpm install
-   ```
+# Start the development server
+pnpm dev
+```
 
-3. Set up environment variables:
-
-   ```bash
-   cp .env.example .env
-   ```
-
-   Edit the `.env` file with your database credentials and other settings. See the [Environment Variables](#environment-variables) section for details.
-
-4. Start the development server:
-
-   ```bash
-   pnpm dev
-   ```
-
-5. Visit `http://localhost:3000` to see your application.
+Visit `http://localhost:3000` to see your application.
 
 ## Available Scripts
 
-```bash
-# Development
-pnpm dev              # Start development server
-pnpm devsafe          # Start dev server (clears .next cache first)
-
-# Production
-pnpm build            # Build for production
-pnpm start            # Start production server
-
-# Code Quality
-pnpm lint             # Run ESLint
-
-# Payload CMS
-pnpm payload          # Access Payload CLI
-pnpm generate:types   # Generate TypeScript types
-pnpm generate:importmap # Generate import map
-```
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start development server |
+| `pnpm devsafe` | Start dev server (clears .next cache first) |
+| `pnpm build` | Build for production |
+| `pnpm start` | Start production server |
+| `pnpm lint` | Run ESLint |
+| `pnpm payload` | Access Payload CLI |
+| `pnpm generate:types` | Generate TypeScript types from collections |
+| `pnpm generate:importmap` | Generate Payload import map |
 
 ## Project Structure
 
 ```
-/src
-  /app                 # Next.js App Router
-    /(frontend)        # Frontend routes
-      /(admin)         # Protected admin routes
-      /(auth)          # Authentication routes
-      /(site)          # Public site routes
-    /(payload)         # Payload CMS routes
-    /api               # API routes
-      /auth            # Auth endpoints (email verification)
-  /collections         # Payload collections
-  /components          # React components
-    /app               # App-specific components
-    /auth              # Authentication components
-    /site              # Site components
-    /theme             # Theme components
-    /ui                # Shadcn UI components
-    ds.tsx             # Design system exports
-  /lib                 # Utility functions
-  /public              # Static assets
-  middleware.ts        # Route protection
-  payload.config.ts    # Payload configuration
+src/
+├── app/                      # Next.js App Router
+│   ├── (frontend)/           # Frontend routes
+│   │   ├── (admin)/          # Protected routes (requires auth)
+│   │   ├── (auth)/           # Auth routes (login, register, etc.)
+│   │   └── (site)/           # Public routes
+│   ├── (payload)/            # Payload CMS admin routes
+│   └── api/                  # API routes
+│       └── auth/             # Auth endpoints (email verification)
+├── collections/              # Payload collections (Users, Media)
+├── components/
+│   ├── app/                  # App-specific components
+│   ├── auth/                 # Authentication components
+│   ├── dashboard/            # Dashboard components
+│   ├── site/                 # Site components (header, footer)
+│   ├── theme/                # Theme provider and toggle
+│   ├── ui/                   # shadcn/ui components
+│   └── ds.tsx                # Design system exports
+├── lib/
+│   ├── auth.ts               # Auth utilities and server actions
+│   ├── email.ts              # Email service with Resend
+│   ├── utils.ts              # Utility functions (cn, etc.)
+│   └── validation.ts         # Zod validation schemas
+├── middleware.ts             # Route protection middleware
+├── payload.config.ts         # Payload CMS configuration
+└── payload-types.ts          # Auto-generated types
 ```
 
 ## Environment Variables
 
-Create a `.env` file in the root directory with the following variables:
+Create a `.env` file in the root directory:
 
-### Required Variables
+### Required
 
 ```bash
-# Database
+# Database (PostgreSQL)
 DATABASE_URI=postgres://user:password@localhost:5432/dbname
 
-# Payload
-PAYLOAD_SECRET=your-secret-key-here
-APP_URL=http://localhost:3000  # Your app URL (production URL in deployment)
+# Payload CMS
+PAYLOAD_SECRET=your-secure-secret-key-min-32-chars
 
-# Email (Resend)
-RESEND_API_KEY=re_xxxxxxxxxxxxxxxx  # Get from resend.com
-EMAIL_FROM=noreply@yourdomain.com
-
-# Storage
-BLOB_READ_WRITE_TOKEN=vercel_blob_xxxxxx  # From Vercel dashboard
+# Storage (Vercel Blob)
+BLOB_READ_WRITE_TOKEN=vercel_blob_xxxxxx
 ```
 
-### Optional Variables (for S3/R2 storage)
+### Optional
 
 ```bash
-# Cloudflare R2 or AWS S3
+# Email (Resend) - Required for email verification & password reset
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxx
+EMAIL_FROM=noreply@yourdomain.com
+
+# Alternative Storage (Cloudflare R2 or AWS S3)
 R2_ACCESS_KEY_ID=your-access-key
 R2_SECRET_ACCESS_KEY=your-secret-key
 R2_BUCKET=your-bucket-name
 R2_ENDPOINT=https://your-endpoint.r2.cloudflarestorage.com
 ```
 
+## Route Organization
+
+| Route Pattern | Access | Description |
+|--------------|--------|-------------|
+| `/(site)/*` | Public | Marketing pages, public content |
+| `/(auth)/*` | Guest only | Login, register, password reset |
+| `/(admin)/*` | Authenticated | Dashboard, protected pages |
+| `/(payload)/*` | Admin | Payload CMS admin interface |
+| `/api/*` | Varies | REST API, Payload API |
+| `/api/graphql` | Varies | GraphQL endpoint |
+
+## Authentication
+
+### Components
+
+| Component | Purpose |
+|-----------|---------|
+| `login-form.tsx` | Login with email/password |
+| `register-form.tsx` | User registration with validation |
+| `forgot-password-form.tsx` | Request password reset |
+| `logout-button.tsx` | Client-side logout |
+| `logout-form.tsx` | Server-side logout (no JS required) |
+| `email-verification-banner.tsx` | Shows when email is unverified |
+
+### Auth Flow
+
+1. **Registration**: User registers → verification email sent → user clicks link → email verified
+2. **Login**: User submits credentials → server validates → HTTP-only cookie set → redirect to dashboard
+3. **Password Reset**: User requests reset → email sent → user clicks link → sets new password
+
 ## Email Configuration
 
-This starter uses [Resend](https://resend.com) for transactional emails. To set up:
+This starter uses [Resend](https://resend.com) for transactional emails:
 
 1. Create a free account at [resend.com](https://resend.com)
 2. Verify your domain or use their test domain
 3. Generate an API key
-4. Add the API key to your `.env` file
+4. Add credentials to your `.env` file
 
-Email features include:
-
+**Features:**
 - Welcome emails on registration
 - Email verification links
 - Password reset emails
-- Customizable email templates in `/src/lib/email.ts`
+- Customizable templates in `/src/lib/email.ts`
 
-## Key Components
+## Storage Configuration
 
-### Authentication Components
+### Vercel Blob (Default)
 
-- `login-form.tsx` - Login with email/password
-- `register-form.tsx` - User registration with validation
-- `email-verification-banner.tsx` - Shows when email is unverified
-- `forgot-password-form.tsx` - Request password reset
-- `logout-button.tsx` - Client-side logout
-- `logout-form.tsx` - Server-side logout (works without JS)
+Already configured. Just add `BLOB_READ_WRITE_TOKEN` to your environment.
 
-### Design System
+### Cloudflare R2 / AWS S3
 
-- All UI components are in `/src/components/ui/`
-- Import common components from `/src/components/ds.tsx`
-- Consistent theming with CSS variables
-- Full dark mode support
+1. Uncomment S3 configuration in `payload.config.ts`
+2. Comment out Vercel Blob configuration
+3. Add R2/S3 credentials to your environment
 
-## Security Features
+## Security
 
-- **Authentication**: HTTP-only cookies, secure flag in production
-- **Headers**: Security headers configured in `next.config.mjs`
-- **CSRF**: Built-in protection via Payload
-- **Input Validation**: Zod schemas for all forms
-- **Password Security**: Strength requirements, bcrypt hashing
-- **Rate Limiting**: Built into Payload auth endpoints
+| Feature | Implementation |
+|---------|----------------|
+| Authentication | HTTP-only cookies with secure flag |
+| CSRF Protection | Built into Payload |
+| Input Validation | Zod schemas |
+| Password Hashing | bcrypt via Payload |
+| Security Headers | Configured in `next.config.mjs` |
+| Rate Limiting | Built into Payload auth endpoints |
+
+## Common Tasks
+
+### Adding a New Collection
+
+```bash
+# 1. Create collection file
+# /src/collections/Posts.ts
+
+# 2. Add to payload.config.ts
+# collections: [Users, Media, Posts]
+
+# 3. Generate types
+pnpm generate:types
+```
+
+### Creating Protected Pages
+
+Add pages under `/src/app/(frontend)/(admin)/`. Middleware automatically protects these routes.
+
+### Adding UI Components
+
+```bash
+# shadcn/ui components are in /src/components/ui/
+# Import from the design system for common components:
+import { Button, Card, Input } from '@/components/ds'
+```
+
+### Working with Forms
+
+```tsx
+import { Field, FieldGroup, FieldLabel, FieldError } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+
+<form onSubmit={handleSubmit}>
+  <FieldGroup>
+    <Field data-invalid={hasError}>
+      <FieldLabel htmlFor="email">Email</FieldLabel>
+      <Input id="email" name="email" type="email" required />
+      {hasError && <FieldError>Invalid email</FieldError>}
+    </Field>
+  </FieldGroup>
+</form>
+```
 
 ## Deployment
 
-This project is ready to deploy on Vercel:
+### Vercel (Recommended)
 
-1. Push your code to a GitHub repository
-2. Connect the repository to Vercel
-3. Configure all required environment variables
-4. Deploy!
+1. Push your code to GitHub
+2. Import the repository in Vercel
+3. Configure environment variables
+4. Deploy
+
+### Docker
+
+```bash
+# Build the image
+docker build -t payload-starter .
+
+# Run the container
+docker run -p 3000:3000 --env-file .env payload-starter
+```
+
+## Troubleshooting
+
+### Next.js Cache Issues
+
+```bash
+pnpm devsafe  # Clears .next cache and starts dev server
+```
+
+### Type Errors After Collection Changes
+
+```bash
+pnpm generate:types
+```
+
+### Database Connection Issues
+
+- Verify `DATABASE_URI` format: `postgres://user:password@host:5432/database`
+- Ensure PostgreSQL is running
+- Check firewall/network settings
 
 ## Contributing
 
@@ -222,14 +311,15 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
 - [Payload CMS](https://payloadcms.com)
 - [Next.js](https://nextjs.org)
-- [Shadcn UI](https://ui.shadcn.com)
+- [shadcn/ui](https://ui.shadcn.com)
 - [Tailwind CSS](https://tailwindcss.com)
+- [Resend](https://resend.com)
 
 ---
 
