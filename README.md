@@ -9,6 +9,7 @@ A modern, open-source SaaS starter kit built with Next.js 16 and Payload CMS 3, 
 [payloadstarter.dev](https://payloadstarter.dev)
 
 > **Other Versions:**
+>
 > - [payload-clerk](https://github.com/brijr/payload-clerk) - With Clerk authentication
 > - [payload-workos](https://github.com/brijr/payload-workos) - With WorkOS authentication
 > - [payload-blog](https://github.com/brijr/payload-blog) - Blog starter template
@@ -30,16 +31,18 @@ A modern, open-source SaaS starter kit built with Next.js 16 and Payload CMS 3, 
 
 ### Modern Tech Stack
 
-| Category | Technology |
-|----------|------------|
-| Framework | Next.js 16 with App Router |
-| CMS | Payload CMS 3.67 |
-| Language | TypeScript 5.7 |
-| Database | PostgreSQL |
-| Styling | Tailwind CSS 4 |
-| Components | shadcn/ui + Radix UI |
-| Email | Resend |
-| Storage | Vercel Blob / S3 / R2 |
+| Category        | Technology                          |
+| --------------- | ----------------------------------- |
+| Framework       | Next.js 16.2 with App Router        |
+| Runtime UI      | React 19.2                          |
+| CMS             | Payload CMS 3.84                    |
+| Language        | TypeScript 5.7                      |
+| Database        | PostgreSQL                          |
+| Styling         | Tailwind CSS 4                      |
+| Components      | shadcn/ui + Radix UI                |
+| Email           | Resend                              |
+| Storage         | Vercel Blob by default, S3/R2-ready |
+| Package Manager | pnpm 10.12                          |
 
 ### Developer Experience
 
@@ -54,10 +57,10 @@ A modern, open-source SaaS starter kit built with Next.js 16 and Payload CMS 3, 
 
 ### Prerequisites
 
-- **Node.js**: v18.20.2+ or v20.9.0+
-- **Package Manager**: pnpm
+- **Node.js**: v20.9.0 or newer
+- **Package Manager**: pnpm 10.12.4
 - **Database**: PostgreSQL
-- **Storage**: Vercel Blob, AWS S3, or Cloudflare R2
+- **Storage**: Vercel Blob for media uploads, or configure S3/R2
 
 ### Installation
 
@@ -65,6 +68,9 @@ A modern, open-source SaaS starter kit built with Next.js 16 and Payload CMS 3, 
 # Clone the repository
 git clone https://github.com/brijr/payload-starter.git
 cd payload-starter
+
+# Use the pnpm version pinned in package.json
+npm install -g pnpm@10.12.4
 
 # Install dependencies
 pnpm install
@@ -81,16 +87,16 @@ Visit `http://localhost:3000` to see your application.
 
 ## Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start development server |
-| `pnpm devsafe` | Start dev server (clears .next cache first) |
-| `pnpm build` | Build for production |
-| `pnpm start` | Start production server |
-| `pnpm lint` | Run ESLint |
-| `pnpm payload` | Access Payload CLI |
-| `pnpm generate:types` | Generate TypeScript types from collections |
-| `pnpm generate:importmap` | Generate Payload import map |
+| Command                   | Description                                 |
+| ------------------------- | ------------------------------------------- |
+| `pnpm dev`                | Start development server                    |
+| `pnpm devsafe`            | Start dev server (clears .next cache first) |
+| `pnpm build`              | Build for production                        |
+| `pnpm start`              | Start production server                     |
+| `pnpm lint`               | Run ESLint                                  |
+| `pnpm payload`            | Access Payload CLI                          |
+| `pnpm generate:types`     | Generate TypeScript types from collections  |
+| `pnpm generate:importmap` | Generate Payload import map                 |
 
 ## Project Structure
 
@@ -127,27 +133,42 @@ src/
 
 Create a `.env` file in the root directory:
 
-### Required
+### Required to Run
 
 ```bash
+# Public app URL used for email links
+APP_URL=http://localhost:3000
+
 # Database (PostgreSQL)
 DATABASE_URI=postgres://user:password@localhost:5432/dbname
 
 # Payload CMS
 PAYLOAD_SECRET=your-secure-secret-key-min-32-chars
+```
 
+### Required for Email Features
+
+Email verification and password reset flows send transactional email through Resend.
+
+```bash
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxx
+EMAIL_FROM=noreply@yourdomain.com
+```
+
+### Required for Media Uploads
+
+Vercel Blob is preconfigured as the default media storage backend.
+
+```bash
 # Storage (Vercel Blob)
 BLOB_READ_WRITE_TOKEN=vercel_blob_xxxxxx
 ```
 
-### Optional
+### Optional Storage Providers
+
+The S3 storage package is installed for Cloudflare R2 or AWS S3. To switch providers, update `src/payload.config.ts` to use `@payloadcms/storage-s3`, then add the relevant credentials:
 
 ```bash
-# Email (Resend) - Required for email verification & password reset
-RESEND_API_KEY=re_xxxxxxxxxxxxxxxx
-EMAIL_FROM=noreply@yourdomain.com
-
-# Alternative Storage (Cloudflare R2 or AWS S3)
 R2_ACCESS_KEY_ID=your-access-key
 R2_SECRET_ACCESS_KEY=your-secret-key
 R2_BUCKET=your-bucket-name
@@ -156,27 +177,27 @@ R2_ENDPOINT=https://your-endpoint.r2.cloudflarestorage.com
 
 ## Route Organization
 
-| Route Pattern | Access | Description |
-|--------------|--------|-------------|
-| `/(site)/*` | Public | Marketing pages, public content |
-| `/(auth)/*` | Guest only | Login, register, password reset |
-| `/(admin)/*` | Authenticated | Dashboard, protected pages |
-| `/(payload)/*` | Admin | Payload CMS admin interface |
-| `/api/*` | Varies | REST API, Payload API |
-| `/api/graphql` | Varies | GraphQL endpoint |
+| Route Pattern  | Access        | Description                     |
+| -------------- | ------------- | ------------------------------- |
+| `/(site)/*`    | Public        | Marketing pages, public content |
+| `/(auth)/*`    | Guest only    | Login, register, password reset |
+| `/(admin)/*`   | Authenticated | Dashboard, protected pages      |
+| `/(payload)/*` | Admin         | Payload CMS admin interface     |
+| `/api/*`       | Varies        | REST API, Payload API           |
+| `/api/graphql` | Varies        | GraphQL endpoint                |
 
 ## Authentication
 
 ### Components
 
-| Component | Purpose |
-|-----------|---------|
-| `login-form.tsx` | Login with email/password |
-| `register-form.tsx` | User registration with validation |
-| `forgot-password-form.tsx` | Request password reset |
-| `logout-button.tsx` | Client-side logout |
-| `logout-form.tsx` | Server-side logout (no JS required) |
-| `email-verification-banner.tsx` | Shows when email is unverified |
+| Component                       | Purpose                             |
+| ------------------------------- | ----------------------------------- |
+| `login-form.tsx`                | Login with email/password           |
+| `register-form.tsx`             | User registration with validation   |
+| `forgot-password-form.tsx`      | Request password reset              |
+| `logout-button.tsx`             | Client-side logout                  |
+| `logout-form.tsx`               | Server-side logout (no JS required) |
+| `email-verification-banner.tsx` | Shows when email is unverified      |
 
 ### Auth Flow
 
@@ -194,6 +215,7 @@ This starter uses [Resend](https://resend.com) for transactional emails:
 4. Add credentials to your `.env` file
 
 **Features:**
+
 - Welcome emails on registration
 - Email verification links
 - Password reset emails
@@ -207,20 +229,20 @@ Already configured. Just add `BLOB_READ_WRITE_TOKEN` to your environment.
 
 ### Cloudflare R2 / AWS S3
 
-1. Uncomment S3 configuration in `payload.config.ts`
-2. Comment out Vercel Blob configuration
+1. Add an `@payloadcms/storage-s3` plugin configuration in `payload.config.ts`
+2. Disable or remove the Vercel Blob storage plugin
 3. Add R2/S3 credentials to your environment
 
 ## Security
 
-| Feature | Implementation |
-|---------|----------------|
-| Authentication | HTTP-only cookies with secure flag |
-| CSRF Protection | Built into Payload |
-| Input Validation | Zod schemas |
-| Password Hashing | bcrypt via Payload |
-| Security Headers | Configured in `next.config.mjs` |
-| Rate Limiting | Built into Payload auth endpoints |
+| Feature          | Implementation                     |
+| ---------------- | ---------------------------------- |
+| Authentication   | HTTP-only cookies with secure flag |
+| CSRF Protection  | Built into Payload                 |
+| Input Validation | Zod schemas                        |
+| Password Hashing | bcrypt via Payload                 |
+| Security Headers | Configured in `next.config.mjs`    |
+| Rate Limiting    | Built into Payload auth endpoints  |
 
 ## Common Tasks
 
@@ -255,7 +277,7 @@ import { Button, Card, Input } from '@/components/ds'
 import { Field, FieldGroup, FieldLabel, FieldError } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 
-<form onSubmit={handleSubmit}>
+;<form onSubmit={handleSubmit}>
   <FieldGroup>
     <Field data-invalid={hasError}>
       <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -272,7 +294,7 @@ import { Input } from '@/components/ui/input'
 
 1. Push your code to GitHub
 2. Import the repository in Vercel
-3. Configure environment variables
+3. Configure `DATABASE_URI`, `PAYLOAD_SECRET`, `APP_URL`, email variables, and storage variables
 4. Deploy
 
 ### Docker
@@ -284,6 +306,8 @@ docker build -t payload-starter .
 # Run the container
 docker run -p 3000:3000 --env-file .env payload-starter
 ```
+
+See [README.docker.md](README.docker.md) for Docker Compose development setup.
 
 ## Troubleshooting
 
