@@ -4,6 +4,15 @@ import { withPayload } from '@payloadcms/next/withPayload'
 const nextConfig = {
   // Your Next.js config here
   output: 'standalone', // Required for Docker deployment
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'vercel.com',
+        pathname: '/button',
+      },
+    ],
+  },
 
   // Security headers
   async headers() {

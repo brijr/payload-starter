@@ -1,6 +1,7 @@
 {
   "name": "payload-starter",
   "version": "1.0.0",
+  "packageManager": "pnpm@10.12.4",
   "description": "A saas starter template to get started with Payload 3.0",
   "license": "MIT",
   "type": "module",
@@ -10,7 +11,7 @@
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev --webpack",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
-    "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
+    "lint": "cross-env NODE_OPTIONS=--no-deprecation eslint .",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
@@ -69,15 +70,15 @@
     "next-themes": "^0.4.6",
     "payload": "3.84.1",
     "postcss": "^8.5.12",
-    "react": "19.2.0",
+    "react": "19.2.5",
     "react-day-picker": "^9.14.0",
-    "react-dom": "19.2.0",
+    "react-dom": "19.2.5",
     "react-hook-form": "^7.74.0",
     "react-resizable-panels": "^3.0.6",
     "react-wrap-balancer": "^1.1.1",
     "recharts": "2.15.4",
     "resend": "^4.8.0",
-    "sharp": "0.33.5",
+    "sharp": "0.34.5",
     "sonner": "^2.0.7",
     "tailwind-merge": "^2.6.1",
     "tailwindcss": "^4.2.4",
@@ -86,17 +87,16 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.5",
     "@types/node": "^22.19.17",
-    "@types/react": "19.0.7",
-    "@types/react-dom": "19.0.3",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
     "eslint": "^9.39.4",
-    "eslint-config-next": "16.0.0",
+    "eslint-config-next": "16.2.4",
     "prettier": "^3.8.3",
     "tw-animate-css": "^1.4.0",
     "typescript": "5.7.3"
   },
   "engines": {
-    "node": "^18.20.2 || >=20.9.0"
+    "node": ">=20.9.0"
   }
 }

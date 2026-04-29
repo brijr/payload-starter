@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { registerUser } from '@/lib/auth'
 import { validatePassword, validateEmail } from '@/lib/validation'
 import { useRouter } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 import type { RegisterResponse } from '@/lib/auth'
@@ -16,39 +16,19 @@ export const RegisterForm = () => {
   const [isPending, setIsPending] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [passwordFeedback, setPasswordFeedback] = useState<string | null>(null)
-  const [passwordStrength, setPasswordStrength] = useState<'weak' | 'medium' | 'strong' | null>(
-    null,
-  )
   const router = useRouter()
-
-  // Validate password as user types
-  useEffect(() => {
-    if (!password) {
-      setPasswordFeedback(null)
-      setPasswordStrength(null)
-      return
-    }
-
-    const validation = validatePassword(password)
-
-    if (!validation.valid) {
-      setPasswordFeedback(validation.error || null)
-      // Determine password strength
-      if (password.length < 8) {
-        setPasswordStrength('weak')
-      } else if (
-        password.length >= 8 &&
-        (/[A-Z]/.test(password) || /[a-z]/.test(password)) &&
-        /[0-9]/.test(password)
-      ) {
-        setPasswordStrength('medium')
-      }
-    } else {
-      setPasswordFeedback(null)
-      setPasswordStrength('strong')
-    }
-  }, [password])
+  const passwordValidation = password ? validatePassword(password) : null
+  const passwordFeedback =
+    passwordValidation?.valid === false ? passwordValidation.error || null : null
+  const passwordStrength: 'weak' | 'medium' | 'strong' | null = !password
+    ? null
+    : passwordValidation?.valid
+      ? 'strong'
+      : password.length < 8
+        ? 'weak'
+        : (/[A-Z]/.test(password) || /[a-z]/.test(password)) && /[0-9]/.test(password)
+          ? 'medium'
+          : null
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()

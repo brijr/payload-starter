@@ -16,11 +16,12 @@ function ResetPasswordForm() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const [token, setToken] = useState('')
-  const [email, setEmail] = useState('')
 
   const searchParams = useSearchParams()
   const router = useRouter()
+  const token = searchParams.get('token') ?? ''
+  const emailParam = searchParams.get('email')
+  const email = emailParam ? decodeURIComponent(emailParam) : ''
 
   // Check if user is already authenticated
   useEffect(() => {
@@ -39,16 +40,6 @@ function ResetPasswordForm() {
     }
     checkAuth()
   }, [router])
-
-  useEffect(() => {
-    const tokenParam = searchParams.get('token')
-    const emailParam = searchParams.get('email')
-
-    if (tokenParam && emailParam) {
-      setToken(tokenParam)
-      setEmail(decodeURIComponent(emailParam))
-    }
-  }, [searchParams])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
