@@ -1,0 +1,297 @@
+{
+  "edges": [
+    {
+      "from_file": "src/app/(frontend)/(admin)/dashboard/page.tsx",
+      "from_func": "Dashboard",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "getUser"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "resendVerification",
+      "to_file": "src/lib/email.ts",
+      "to_func": "verificationEmailTemplate"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "resendVerification",
+      "to_file": "src/lib/email.ts",
+      "to_func": "sendEmail"
+    },
+    {
+      "from_file": "src/components/ui/sidebar.tsx",
+      "from_func": "handleKeyDown",
+      "to_file": "src/components/ui/sidebar.tsx",
+      "to_func": "toggleSidebar"
+    },
+    {
+      "from_file": "src/components/app/nav.tsx",
+      "from_func": "AppNav",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "getUser"
+    },
+    {
+      "from_file": "src/components/ui/sidebar.tsx",
+      "from_func": "SidebarMenuButton",
+      "to_file": "src/components/ui/sidebar.tsx",
+      "to_func": "useSidebar"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "resetPassword",
+      "to_file": "src/lib/validation.ts",
+      "to_func": "validateEmail"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "resetPassword",
+      "to_file": "src/lib/validation.ts",
+      "to_func": "validatePassword"
+    },
+    {
+      "from_file": "src/components/auth/login-form.tsx",
+      "from_func": "handleSubmit",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "loginUser"
+    },
+    {
+      "from_file": "src/app/(frontend)/(auth)/forgot-password/page.tsx",
+      "from_func": "ForgotPasswordPage",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "getUser"
+    },
+    {
+      "from_file": "src/components/ui/button-group.tsx",
+      "from_func": "ButtonGroup",
+      "to_file": "src/components/ui/button-group.tsx",
+      "to_func": "buttonGroupVariants"
+    },
+    {
+      "from_file": "src/components/auth/email-verification-banner.tsx",
+      "from_func": "EmailVerificationBanner",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "resendVerification"
+    },
+    {
+      "from_file": "src/app/(frontend)/(admin)/layout.tsx",
+      "from_func": "AuthLayout",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "getUser"
+    },
+    {
+      "from_file": "src/app/(frontend)/(auth)/reset-password/page.tsx",
+      "from_func": "handleSubmit",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "resetPassword"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "registerUser",
+      "to_file": "src/lib/email.ts",
+      "to_func": "verificationEmailTemplate"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "forgotPassword",
+      "to_file": "src/lib/email.ts",
+      "to_func": "passwordResetEmailTemplate"
+    },
+    {
+      "from_file": "src/components/ui/carousel.tsx",
+      "from_func": "Carousel",
+      "to_file": "src/components/ui/carousel.tsx",
+      "to_func": "scrollPrev"
+    },
+    {
+      "from_file": "src/components/auth/logout-button.tsx",
+      "from_func": "LogoutIconButton",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "clearAuthCookies"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "registerUser",
+      "to_file": "src/lib/email.ts",
+      "to_func": "sendEmail"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "forgotPassword",
+      "to_file": "src/lib/validation.ts",
+      "to_func": "validateEmail"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "registerUser",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "loginUser"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "resetPassword",
+      "to_file": "src/lib/email.ts",
+      "to_func": "sendEmail"
+    },
+    {
+      "from_file": "src/components/auth/register-form.tsx",
+      "from_func": "handleSubmit",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "registerUser"
+    },
+    {
+      "from_file": "src/components/auth/logout-button.tsx",
+      "from_func": "LogoutButton",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "clearAuthCookies"
+    },
+    {
+      "from_file": "src/components/auth/email-verification-banner.tsx",
+      "from_func": "handleResendVerification",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "resendVerification"
+    },
+    {
+      "from_file": "src/components/auth/register-form.tsx",
+      "from_func": "handleSubmit",
+      "to_file": "src/lib/validation.ts",
+      "to_func": "validateEmail"
+    },
+    {
+      "from_file": "src/components/auth/register-form.tsx",
+      "from_func": "handleSubmit",
+      "to_file": "src/lib/validation.ts",
+      "to_func": "validatePassword"
+    },
+    {
+      "from_file": "src/components/auth/logout-button.tsx",
+      "from_func": "handleLogout",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "clearAuthCookies"
+    },
+    {
+      "from_file": "src/app/(frontend)/(auth)/register/page.tsx",
+      "from_func": "RegisterPage",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "getUser"
+    },
+    {
+      "from_file": "src/components/ui/sidebar.tsx",
+      "from_func": "SidebarMenuButton",
+      "to_file": "src/components/ui/sidebar.tsx",
+      "to_func": "sidebarMenuButtonVariants"
+    },
+    {
+      "from_file": "src/components/ui/alert.tsx",
+      "from_func": "Alert",
+      "to_file": "src/components/ui/alert.tsx",
+      "to_func": "alertVariants"
+    },
+    {
+      "from_file": "src/components/ui/carousel.tsx",
+      "from_func": "CarouselNext",
+      "to_file": "src/components/ui/carousel.tsx",
+      "to_func": "useCarousel"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "resendVerification",
+      "to_file": "src/lib/validation.ts",
+      "to_func": "validateEmail"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "forgotPassword",
+      "to_file": "src/lib/email.ts",
+      "to_func": "sendEmail"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "resetPassword",
+      "to_file": "src/lib/email.ts",
+      "to_func": "passwordChangedEmailTemplate"
+    },
+    {
+      "from_file": "src/app/api/auth/verify-email/route.ts",
+      "from_func": "GET",
+      "to_file": "src/lib/email.ts",
+      "to_func": "sendEmail"
+    },
+    {
+      "from_file": "src/app/api/auth/verify-email/route.ts",
+      "from_func": "GET",
+      "to_file": "src/lib/email.ts",
+      "to_func": "welcomeEmailTemplate"
+    },
+    {
+      "from_file": "src/components/ui/navigation-menu.tsx",
+      "from_func": "NavigationMenuTrigger",
+      "to_file": "src/components/ui/navigation-menu.tsx",
+      "to_func": "navigationMenuTriggerStyle"
+    },
+    {
+      "from_file": "src/components/ui/input-otp.tsx",
+      "from_func": "InputOTP",
+      "to_file": "src/lib/utils.ts",
+      "to_func": "cn"
+    },
+    {
+      "from_file": "src/components/ui/carousel.tsx",
+      "from_func": "CarouselItem",
+      "to_file": "src/components/ui/carousel.tsx",
+      "to_func": "useCarousel"
+    },
+    {
+      "from_file": "src/components/auth/forgot-password-form.tsx",
+      "from_func": "handleSubmit",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "forgotPassword"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "registerUser",
+      "to_file": "src/lib/validation.ts",
+      "to_func": "validateEmail"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "registerUser",
+      "to_file": "src/lib/validation.ts",
+      "to_func": "validatePassword"
+    },
+    {
+      "from_file": "src/components/auth/forgot-password-form.tsx",
+      "from_func": "ForgotPasswordForm",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "forgotPassword"
+    },
+    {
+      "from_file": "src/components/ui/carousel.tsx",
+      "from_func": "Carousel",
+      "to_file": "src/components/ui/carousel.tsx",
+      "to_func": "scrollNext"
+    },
+    {
+      "from_file": "src/app/(frontend)/(auth)/reset-password/page.tsx",
+      "from_func": "checkAuth",
+      "to_file": "src/lib/auth.ts",
+      "to_func": "getUser"
+    },
+    {
+      "from_file": "src/lib/auth.ts",
+      "from_func": "loginUser",
+      "to_file": "src/lib/validation.ts",
+      "to_func": "validateEmail"
+    },
+    {
+      "from_file": "src/components/ui/badge.tsx",
+      "from_func": "Badge",
+      "to_file": "src/components/ui/badge.tsx",
+      "to_func": "badgeVariants"
+    }
+  ],
+  "languages": [
+    "javascript",
+    "typescript"
+  ],
+  "timestamp": 1780968409.292546
+}
