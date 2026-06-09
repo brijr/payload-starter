@@ -27,42 +27,6 @@ export const Users: CollectionConfig = {
       required: true,
       defaultValue: 'user',
     },
-    {
-      name: 'emailVerified',
-      type: 'checkbox',
-      defaultValue: false,
-      admin: {
-        description: 'Has the user verified their email address',
-      },
-    },
-    {
-      name: 'emailVerificationToken',
-      type: 'text',
-      admin: {
-        hidden: true,
-      },
-    },
-    {
-      name: 'emailVerificationExpires',
-      type: 'date',
-      admin: {
-        hidden: true,
-      },
-    },
-    {
-      name: 'passwordResetToken',
-      type: 'text',
-      admin: {
-        hidden: true,
-      },
-    },
-    {
-      name: 'passwordResetExpires',
-      type: 'date',
-      admin: {
-        hidden: true,
-      },
-    },
     // If you want to add a username field, uncomment the following lines
     // {
     //   name: 'username',

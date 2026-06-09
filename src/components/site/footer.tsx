@@ -12,7 +12,7 @@ export const Footer = () => {
           <div className="grid gap-6">
             <p className="text-muted-foreground">
               <Balancer>
-                Payload Starter is an Open Source SaaS starter for creating applications with
+                Payload Starter is an Open Source starter for creating applications with
                 Next.js and Payload.
               </Balancer>
             </p>

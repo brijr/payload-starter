@@ -1,5 +1,4 @@
 import { Container, Section } from '@/components/ds'
-import Image from 'next/image'
 
 export default async function Home() {
   return <ToDelete />
@@ -19,17 +18,13 @@ const ToDelete = () => {
             Explore Official Plugins &rarr;
           </a>
         </p>
-        <p>This starter uses Payload, Postgres, Resend, and Vercel Blob.</p>
+        <p>This starter uses Payload, Postgres, and Vercel Blob.</p>
         <p className="mb-8">
           Created by{' '}
           <a className="underline text-primary" href="https://brijr.dev">
             @brijr
           </a>
         </p>
-
-        <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fbrijr%2Fpayload-starter&env=DATABASE_URI,PAYLOAD_SECRET,BLOB_READ_WRITE_TOKEN,RESEND_API_KEY,EMAIL_FROM&redirect-url=https%3A%2F%2Fgithub.com%2Fbrijr%2Fpayload-starter&demo-url=https%3A%2F%2Fpayloadstarter.dev">
-          <Image src="https://vercel.com/button" alt="Deploy with Vercel" width={153} height={32} />
-        </a>
       </Container>
     </Section>
   )

@@ -1,14 +1,14 @@
 # Payload App Starter
 
-A modern, open-source SaaS starter kit built with Next.js 16 and Payload CMS 3, designed to accelerate your SaaS development.
+A modern, open-source starter kit built with Next.js 16 and Payload CMS 3. Ships with the Payload admin panel, a PostgreSQL-backed CMS, role-based admin access, and a clean Next.js frontend — no custom SaaS auth layer to rip out.
 
-![Payload SaaS Starter](https://payloadstarter.dev/opengraph-image.jpg)
+![Payload Starter](https://payloadstarter.dev/opengraph-image.jpg)
 
 ## Demo
 
 [payloadstarter.dev](https://payloadstarter.dev)
 
-> **Other Versions:**
+> **Want user-facing authentication?** These sibling templates add a full auth layer on top of the same foundation:
 >
 > - [payload-clerk](https://github.com/brijr/payload-clerk) - With Clerk authentication
 > - [payload-workos](https://github.com/brijr/payload-workos) - With WorkOS authentication
@@ -16,18 +16,14 @@ A modern, open-source SaaS starter kit built with Next.js 16 and Payload CMS 3, 
 
 ## Features
 
-### Authentication System
+### Payload CMS, batteries included
 
-- Secure HTTP-only cookie-based authentication
-- Email/password registration and login
-- Email verification with automatic emails
-- Password reset flow (forgot password)
-- Resend verification email capability
-- Role-based access control (admin/user)
-- Password strength validation
-- "Remember me" functionality
-- Protected routes via middleware
-- Toast notifications for auth feedback
+- Payload admin panel at `/admin` with its own built-in authentication
+- Role-based admin access control (`admin` / `user`) on the `Users` collection
+- PostgreSQL via the official Payload adapter
+- Auto-generated, end-to-end TypeScript types from your collections
+- Media uploads with Sharp optimization, stored in Vercel Blob (S3/R2-ready)
+- REST API at `/api` and GraphQL at `/api/graphql`
 
 ### Modern Tech Stack
 
@@ -35,20 +31,21 @@ A modern, open-source SaaS starter kit built with Next.js 16 and Payload CMS 3, 
 | --------------- | ----------------------------------- |
 | Framework       | Next.js 16.2 with App Router        |
 | Runtime UI      | React 19.2                          |
-| CMS             | Payload CMS 3.84                    |
+| CMS             | Payload CMS 3.85                    |
 | Language        | TypeScript 5.7                      |
 | Database        | PostgreSQL                          |
 | Styling         | Tailwind CSS 4                      |
 | Components      | shadcn/ui + Radix UI                |
-| Email           | Resend                              |
 | Storage         | Vercel Blob by default, S3/R2-ready |
+| Testing         | Vitest                              |
 | Package Manager | pnpm 10.12                          |
 
 ### Developer Experience
 
 - Server-first architecture with React Server Components
 - Auto-generated TypeScript types from Payload collections
-- Reusable design system components
+- `typecheck` and `test` scripts for a green baseline
+- Reusable design system components (`@/components/ds`)
 - Built-in security headers
 - Docker support included
 - Vercel deployment ready
@@ -83,7 +80,7 @@ cp .env.example .env
 pnpm dev
 ```
 
-Visit `http://localhost:3000` to see your application.
+Visit `http://localhost:3000` to see the frontend, and `http://localhost:3000/admin` for the Payload admin panel. The first account you create at `/admin` becomes your CMS user — set its role to `admin` to access the panel.
 
 ## Available Scripts
 
@@ -94,6 +91,9 @@ Visit `http://localhost:3000` to see your application.
 | `pnpm build`              | Build for production                        |
 | `pnpm start`              | Start production server                     |
 | `pnpm lint`               | Run ESLint                                  |
+| `pnpm typecheck`          | Type-check with `tsc --noEmit`              |
+| `pnpm test`               | Run the Vitest suite once                   |
+| `pnpm test:watch`         | Run Vitest in watch mode                    |
 | `pnpm payload`            | Access Payload CLI                          |
 | `pnpm generate:types`     | Generate TypeScript types from collections  |
 | `pnpm generate:importmap` | Generate Payload import map                 |
@@ -104,27 +104,20 @@ Visit `http://localhost:3000` to see your application.
 src/
 ├── app/                      # Next.js App Router
 │   ├── (frontend)/           # Frontend routes
-│   │   ├── (admin)/          # Protected routes (requires auth)
-│   │   ├── (auth)/           # Auth routes (login, register, etc.)
-│   │   └── (site)/           # Public routes
-│   ├── (payload)/            # Payload CMS admin routes
-│   └── api/                  # API routes
-│       └── auth/             # Auth endpoints (email verification)
+│   │   └── (site)/           # Public site routes
+│   └── (payload)/            # Payload CMS admin + API routes
+│       ├── admin/            # Admin panel UI
+│       └── api/              # Payload REST + GraphQL endpoints
 ├── collections/              # Payload collections (Users, Media)
 ├── components/
-│   ├── app/                  # App-specific components
-│   ├── auth/                 # Authentication components
-│   ├── dashboard/            # Dashboard components
 │   ├── site/                 # Site components (header, footer)
 │   ├── theme/                # Theme provider and toggle
 │   ├── ui/                   # shadcn/ui components
 │   └── ds.tsx                # Design system exports
+├── hooks/                    # React hooks (use-mobile, ...)
 ├── lib/
-│   ├── auth.ts               # Auth utilities and server actions
-│   ├── email.ts              # Email service with Resend
-│   ├── utils.ts              # Utility functions (cn, etc.)
-│   └── validation.ts         # Zod validation schemas
-├── middleware.ts             # Route protection middleware
+│   ├── utils.ts              # Utility functions (cn, ...)
+│   └── utils.test.ts         # Vitest smoke test
 ├── payload.config.ts         # Payload CMS configuration
 └── payload-types.ts          # Auto-generated types
 ```
@@ -136,7 +129,7 @@ Create a `.env` file in the root directory:
 ### Required to Run
 
 ```bash
-# Public app URL used for email links
+# Public app URL
 APP_URL=http://localhost:3000
 
 # Database (PostgreSQL)
@@ -144,15 +137,6 @@ DATABASE_URI=postgres://user:password@localhost:5432/dbname
 
 # Payload CMS
 PAYLOAD_SECRET=your-secure-secret-key-min-32-chars
-```
-
-### Required for Email Features
-
-Email verification and password reset flows send transactional email through Resend.
-
-```bash
-RESEND_API_KEY=re_xxxxxxxxxxxxxxxx
-EMAIL_FROM=noreply@yourdomain.com
 ```
 
 ### Required for Media Uploads
@@ -177,49 +161,22 @@ R2_ENDPOINT=https://your-endpoint.r2.cloudflarestorage.com
 
 ## Route Organization
 
-| Route Pattern  | Access        | Description                     |
-| -------------- | ------------- | ------------------------------- |
-| `/(site)/*`    | Public        | Marketing pages, public content |
-| `/(auth)/*`    | Guest only    | Login, register, password reset |
-| `/(admin)/*`   | Authenticated | Dashboard, protected pages      |
-| `/(payload)/*` | Admin         | Payload CMS admin interface     |
-| `/api/*`       | Varies        | REST API, Payload API           |
-| `/api/graphql` | Varies        | GraphQL endpoint                |
+| Route Pattern  | Access      | Description                          |
+| -------------- | ----------- | ------------------------------------ |
+| `/(site)/*`    | Public      | Marketing pages, public content      |
+| `/(payload)/*` | Admin login | Payload CMS admin interface          |
+| `/api/*`       | Varies      | Payload REST API                     |
+| `/api/graphql` | Varies      | GraphQL endpoint                     |
 
 ## Authentication
 
-### Components
+Authentication is handled entirely by **Payload CMS's built-in auth** on the `Users` collection — there is no custom user-facing auth layer.
 
-| Component                       | Purpose                             |
-| ------------------------------- | ----------------------------------- |
-| `login-form.tsx`                | Login with email/password           |
-| `register-form.tsx`             | User registration with validation   |
-| `forgot-password-form.tsx`      | Request password reset              |
-| `logout-button.tsx`             | Client-side logout                  |
-| `logout-form.tsx`               | Server-side logout (no JS required) |
-| `email-verification-banner.tsx` | Shows when email is unverified      |
+- Sign in at `/admin` to reach the CMS.
+- Access to the admin panel is gated by the `isAdmin` access control in `src/collections/Users.ts`, which checks `user.role === 'admin'`.
+- Payload manages password hashing (bcrypt), the auth cookie, CSRF protection, and rate limiting for you.
 
-### Auth Flow
-
-1. **Registration**: User registers → verification email sent → user clicks link → email verified
-2. **Login**: User submits credentials → server validates → HTTP-only cookie set → redirect to dashboard
-3. **Password Reset**: User requests reset → email sent → user clicks link → sets new password
-
-## Email Configuration
-
-This starter uses [Resend](https://resend.com) for transactional emails:
-
-1. Create a free account at [resend.com](https://resend.com)
-2. Verify your domain or use their test domain
-3. Generate an API key
-4. Add credentials to your `.env` file
-
-**Features:**
-
-- Welcome emails on registration
-- Email verification links
-- Password reset emails
-- Customizable templates in `/src/lib/email.ts`
+To add user-facing login/registration, layer an auth provider on top (see the `payload-clerk` / `payload-workos` sibling templates) or build against Payload's [local API](https://payloadcms.com/docs/local-api/overview) and [authentication](https://payloadcms.com/docs/authentication/overview) docs.
 
 ## Storage Configuration
 
@@ -235,14 +192,14 @@ Already configured. Just add `BLOB_READ_WRITE_TOKEN` to your environment.
 
 ## Security
 
-| Feature          | Implementation                     |
-| ---------------- | ---------------------------------- |
-| Authentication   | HTTP-only cookies with secure flag |
-| CSRF Protection  | Built into Payload                 |
-| Input Validation | Zod schemas                        |
-| Password Hashing | bcrypt via Payload                 |
-| Security Headers | Configured in `next.config.mjs`    |
-| Rate Limiting    | Built into Payload auth endpoints  |
+| Feature          | Implementation                       |
+| ---------------- | ------------------------------------ |
+| Admin auth       | Payload built-in (HTTP-only cookies) |
+| CSRF Protection  | Built into Payload                   |
+| Password Hashing | bcrypt via Payload                   |
+| Access Control   | `role`-based on the Users collection |
+| Security Headers | Configured in `next.config.mjs`      |
+| Rate Limiting    | Built into Payload auth endpoints    |
 
 ## Common Tasks
 
@@ -259,34 +216,17 @@ Already configured. Just add `BLOB_READ_WRITE_TOKEN` to your environment.
 pnpm generate:types
 ```
 
-### Creating Protected Pages
-
-Add pages under `/src/app/(frontend)/(admin)/`. Middleware automatically protects these routes.
-
 ### Adding UI Components
 
 ```bash
 # shadcn/ui components are in /src/components/ui/
-# Import from the design system for common components:
-import { Button, Card, Input } from '@/components/ds'
+# Import layout + prose primitives from the design system:
+import { Section, Container, Nav } from '@/components/ds'
 ```
 
-### Working with Forms
+### Writing Tests
 
-```tsx
-import { Field, FieldGroup, FieldLabel, FieldError } from '@/components/ui/field'
-import { Input } from '@/components/ui/input'
-
-;<form onSubmit={handleSubmit}>
-  <FieldGroup>
-    <Field data-invalid={hasError}>
-      <FieldLabel htmlFor="email">Email</FieldLabel>
-      <Input id="email" name="email" type="email" required />
-      {hasError && <FieldError>Invalid email</FieldError>}
-    </Field>
-  </FieldGroup>
-</form>
-```
+Vitest is configured out of the box. Co-locate `*.test.ts` files next to the code they cover (see `src/lib/utils.test.ts`) and run `pnpm test`.
 
 ## Deployment
 
@@ -294,7 +234,7 @@ import { Input } from '@/components/ui/input'
 
 1. Push your code to GitHub
 2. Import the repository in Vercel
-3. Configure `DATABASE_URI`, `PAYLOAD_SECRET`, `APP_URL`, email variables, and storage variables
+3. Configure `DATABASE_URI`, `PAYLOAD_SECRET`, `APP_URL`, and `BLOB_READ_WRITE_TOKEN`
 4. Deploy
 
 ### Docker
@@ -343,7 +283,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Next.js](https://nextjs.org)
 - [shadcn/ui](https://ui.shadcn.com)
 - [Tailwind CSS](https://tailwindcss.com)
-- [Resend](https://resend.com)
 
 ---
 

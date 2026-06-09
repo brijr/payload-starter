@@ -96,6 +96,10 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api) return
+    // Sync initial scroll state with embla's imperative API on mount/reInit.
+    // This is external-store synchronization, not derived state — a render-time
+    // read would be stale since embla mutates internally.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     onSelect(api)
     api.on("reInit", onSelect)
     api.on("select", onSelect)

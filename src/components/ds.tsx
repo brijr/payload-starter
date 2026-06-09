@@ -78,7 +78,7 @@ export const Nav = ({ children, className, id, style, containerClassName }: DSPr
   <nav className={cn(className)} id={id} style={style}>
     <div
       id="nav-container"
-      className={cn('max-w-5xl mx-auto px-4 sm:px-6 py-3', containerClassName)}
+      className={cn('max-w-5xl mx-auto px-4 sm:px-6 py-4', containerClassName)}
     >
       {children}
     </div>
