@@ -123,6 +123,41 @@ export const Main = ({ children, className, id, style }: DSProps) => (
 )
 
 /**
+ * PageHeader component for page/section intros.
+ * Renders an optional eyebrow, an h1 title, an optional description, and any
+ * children (action buttons, metadata, etc.) beneath them.
+ *
+ * @param {React.ReactNode} props.title - The main heading (rendered as h1).
+ * @param {React.ReactNode} [props.description] - Supporting copy under the title.
+ * @param {React.ReactNode} [props.eyebrow] - Small label above the title.
+ * @param {string} [props.className] - Additional class names.
+ * @param {React.ReactNode} [props.children] - Content rendered below the header.
+ * @returns {JSX.Element} A header element.
+ */
+export const PageHeader = ({
+  title,
+  description,
+  eyebrow,
+  className,
+  children,
+}: {
+  title: React.ReactNode
+  description?: React.ReactNode
+  eyebrow?: React.ReactNode
+  className?: string
+  children?: React.ReactNode
+}) => (
+  <header className={cn('space-y-3', className)}>
+    {eyebrow ? <p className="font-mono text-sm text-muted-foreground">{eyebrow}</p> : null}
+    <h1 className="text-3xl font-medium tracking-tight text-balance sm:text-4xl">{title}</h1>
+    {description ? (
+      <p className="max-w-2xl text-muted-foreground text-pretty">{description}</p>
+    ) : null}
+    {children}
+  </header>
+)
+
+/**
  * Prose component to render formatted rich text content.
  * Can render as an article or a div based on the isArticle prop.
  *

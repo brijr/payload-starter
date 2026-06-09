@@ -11,6 +11,11 @@ const nextConfig = {
         hostname: 'vercel.com',
         pathname: '/button',
       },
+      {
+        // Vercel Blob storage — where Media uploads are served from.
+        protocol: 'https',
+        hostname: '*.public.blob.vercel-storage.com',
+      },
     ],
   },
 

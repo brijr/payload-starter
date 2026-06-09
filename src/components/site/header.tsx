@@ -12,8 +12,8 @@ export const Header = () => {
       containerClassName="flex justify-between items-center gap-4"
     >
       <Link href="/" className="flex gap-3 items-center">
-        <Image src={Logo} width={14} alt="Payload Starter" className="invert dark:invert-0" />
-        <h3 className="sm:text-lg">Payload Starter</h3>
+        <Image src={Logo} width={14} alt="" aria-hidden className="invert dark:invert-0" />
+        <span className="font-medium sm:text-lg">Payload Starter</span>
       </Link>
 
       <Button asChild>
