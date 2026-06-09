@@ -34,6 +34,11 @@ yarn-error.log*
 # vercel
 .vercel
 
+# pnpm 10 auto-writes build-script approvals here; Vercel builds with pnpm 9,
+# which reads it as a workspace def and fails ("packages field missing or empty").
+# Keep it local-only so it never breaks the Vercel install.
+pnpm-workspace.yaml
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
