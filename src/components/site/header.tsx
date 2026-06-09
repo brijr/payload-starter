@@ -16,9 +16,17 @@ export const Header = () => {
         <span className="font-medium sm:text-lg">Payload Starter</span>
       </Link>
 
-      <Button asChild>
-        <Link href="/admin">Admin</Link>
-      </Button>
+      <div className="flex items-center gap-4">
+        <Link
+          href="/posts"
+          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+        >
+          Posts
+        </Link>
+        <Button asChild>
+          <Link href="/admin">Admin</Link>
+        </Button>
+      </div>
     </Nav>
   )
 }

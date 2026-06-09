@@ -8,6 +8,13 @@ import type { Metadata } from 'next'
 
 import { Container, PageHeader, Section } from '@/components/ds'
 import { RichText } from '@/components/rich-text'
+import { StructuredData } from '@/components/structured-data'
+import {
+  createArticleJsonLd,
+  createArticleMetadata,
+  createBreadcrumbJsonLd,
+  getPostSeo,
+} from '@/lib/seo'
 
 type Params = { params: Promise<{ slug: string }> }
 
@@ -39,13 +46,18 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const post = await getPost(slug)
   if (!post) return {}
 
-  const description = post.excerpt ?? undefined
-  return {
-    title: post.title,
-    description,
-    openGraph: { title: post.title, description, type: 'article' },
-    twitter: { card: 'summary_large_image', title: post.title, description },
-  }
+  const seo = getPostSeo(post)
+  const author = post.author && typeof post.author === 'object' ? post.author : null
+
+  return createArticleMetadata({
+    title: seo.title,
+    description: seo.description,
+    path: `/posts/${slug}`,
+    image: seo.image,
+    publishedTime: post.publishedAt,
+    modifiedTime: post.updatedAt,
+    authors: author?.email ? [author.email] : undefined,
+  })
 }
 
 export default async function PostPage({ params }: Params) {
@@ -56,10 +68,31 @@ export default async function PostPage({ params }: Params) {
   const hero = post.heroImage && typeof post.heroImage === 'object' ? post.heroImage : null
   const author = post.author && typeof post.author === 'object' ? post.author : null
   const date = formatDate(post.publishedAt)
+  const seo = getPostSeo(post)
+  const postPath = `/posts/${slug}`
 
   return (
     <Section>
       <Container className="space-y-8">
+        <StructuredData
+          data={[
+            createArticleJsonLd({
+              title: seo.title,
+              description: seo.description,
+              path: postPath,
+              image: seo.image,
+              publishedTime: post.publishedAt,
+              modifiedTime: post.updatedAt,
+              authorName: author?.email,
+            }),
+            createBreadcrumbJsonLd([
+              { name: 'Home', path: '/' },
+              { name: 'Posts', path: '/posts' },
+              { name: post.title, path: postPath },
+            ]),
+          ]}
+        />
+
         <Link
           href="/posts"
           className="inline-block text-sm text-muted-foreground underline-offset-4 hover:underline"

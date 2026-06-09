@@ -16,11 +16,16 @@ export const Footer = () => {
                 Next.js and Payload.
               </Balancer>
             </p>
-            <div className="mb-6 flex flex-col gap-4 text-xs text-muted-foreground underline underline-offset-4 md:mb-0 md:flex-row">
-              <Link href="/privacy-policy">Privacy Policy</Link>
-              <Link href="/terms-of-service">Terms of Service</Link>
-              <Link href="/cookie-policy">Cookie Policy</Link>
-            </div>
+            <nav
+              aria-label="Footer"
+              className="mb-6 flex flex-col gap-4 text-xs text-muted-foreground underline underline-offset-4 md:mb-0 md:flex-row"
+            >
+              <Link href="/">Home</Link>
+              <Link href="/posts">Posts</Link>
+              <Link href="/admin">Admin</Link>
+              <a href="https://payloadcms.com/docs">Payload Docs</a>
+              <a href="https://github.com/brijr/payload-starter">GitHub</a>
+            </nav>
             <p className="text-muted-foreground text-xs">
               © <a href="https://github.com/brijr">brijr</a>. All rights reserved. 2025-present.
             </p>

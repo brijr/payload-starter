@@ -2,15 +2,16 @@ import config from '@payload-config'
 import { getPayload } from 'payload'
 import Link from 'next/link'
 
-import type { Metadata } from 'next'
-
 import { Container, PageHeader, Section } from '@/components/ds'
 import { PostCard } from '@/components/site/post-card'
+import { StructuredData } from '@/components/structured-data'
+import { createBreadcrumbJsonLd, createMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
+export const metadata = createMetadata({
   title: 'Posts',
   description: 'Articles, notes, and updates.',
-}
+  path: '/posts',
+})
 
 export default async function PostsPage() {
   const payload = await getPayload({ config })
@@ -28,6 +29,13 @@ export default async function PostsPage() {
   return (
     <Section>
       <Container className="space-y-10">
+        <StructuredData
+          data={createBreadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Posts', path: '/posts' },
+          ])}
+        />
+
         <PageHeader eyebrow="Writing" title="Posts" description="Articles, notes, and updates." />
 
         {posts.length === 0 ? (

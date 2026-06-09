@@ -17,6 +17,8 @@ const formatDate = (value?: string | null) =>
  * PostCard — a compact, linkable preview of a Post for use in listings/grids.
  */
 export const PostCard = ({ post, className }: { post: Post; className?: string }) => {
+  if (!post.slug) return null
+
   const hero = post.heroImage && typeof post.heroImage === 'object' ? post.heroImage : null
   const date = formatDate(post.publishedAt)
 

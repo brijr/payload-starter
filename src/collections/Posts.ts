@@ -68,6 +68,42 @@ export const Posts: CollectionConfig = {
       },
     },
     {
+      name: 'meta',
+      label: 'SEO',
+      type: 'group',
+      admin: {
+        description:
+          'Optional search and social overrides. Defaults use the title, excerpt, and hero image.',
+      },
+      fields: [
+        {
+          name: 'title',
+          label: 'Meta title',
+          type: 'text',
+          admin: {
+            description: 'Defaults to the post title.',
+          },
+        },
+        {
+          name: 'description',
+          label: 'Meta description',
+          type: 'textarea',
+          admin: {
+            description: 'Defaults to the excerpt, then the site description.',
+          },
+        },
+        {
+          name: 'image',
+          label: 'Social image',
+          type: 'upload',
+          relationTo: 'media',
+          admin: {
+            description: 'Defaults to the hero image, then the default Open Graph image.',
+          },
+        },
+      ],
+    },
+    {
       name: 'content',
       type: 'richText',
       required: true,
