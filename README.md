@@ -24,6 +24,7 @@ A modern, open-source starter kit built with Next.js 16 and Payload CMS 3. Ships
 - Auto-generated, end-to-end TypeScript types from your collections
 - Media uploads with Sharp optimization, stored in Vercel Blob (S3/R2-ready)
 - REST API at `/api` and GraphQL at `/api/graphql`
+- SEO-ready public site with shared metadata helpers, sitemap, robots, JSON-LD, and post-level SEO overrides
 
 ### Modern Tech Stack
 
@@ -46,6 +47,7 @@ A modern, open-source starter kit built with Next.js 16 and Payload CMS 3. Ships
 - Auto-generated TypeScript types from Payload collections
 - `typecheck` and `test` scripts for a green baseline
 - Reusable design system components (`@/components/ds`)
+- Central SEO config driven by `APP_URL`
 - Built-in security headers
 - Docker support included
 - Vercel deployment ready
@@ -109,13 +111,18 @@ src/
 │       ├── admin/            # Admin panel UI
 │       └── api/              # Payload REST + GraphQL endpoints
 ├── collections/              # Payload collections (Users, Media)
+│   └── Posts.ts              # Publishable posts with SEO override fields
 ├── components/
 │   ├── site/                 # Site components (header, footer)
 │   ├── theme/                # Theme provider and toggle
 │   ├── ui/                   # shadcn/ui components
+│   ├── rich-text.tsx         # Payload Lexical rich text renderer
+│   ├── structured-data.tsx   # JSON-LD script renderer
 │   └── ds.tsx                # Design system exports
 ├── hooks/                    # React hooks (use-mobile, ...)
 ├── lib/
+│   ├── seo.ts                # Shared metadata, URL, sitemap, and JSON-LD helpers
+│   ├── seo.test.ts           # SEO helper tests
 │   ├── utils.ts              # Utility functions (cn, ...)
 │   └── utils.test.ts         # Vitest smoke test
 ├── payload.config.ts         # Payload CMS configuration
@@ -129,7 +136,7 @@ Create a `.env` file in the root directory:
 ### Required to Run
 
 ```bash
-# Public app URL
+# Public app URL used for metadataBase, canonical URLs, sitemap, robots, and JSON-LD
 APP_URL=http://localhost:3000
 
 # Database (PostgreSQL)
@@ -167,6 +174,18 @@ R2_ENDPOINT=https://your-endpoint.r2.cloudflarestorage.com
 | `/(payload)/*` | Admin login | Payload CMS admin interface          |
 | `/api/*`       | Varies      | Payload REST API                     |
 | `/api/graphql` | Varies      | GraphQL endpoint                     |
+
+## SEO Setup
+
+SEO is centralized in `src/lib/seo.ts` so new projects can change the site name, default description, canonical host, and social images in one place.
+
+- Set `APP_URL` to the public origin for each environment. It powers `metadataBase`, canonical URLs, Open Graph URLs, `robots.txt`, `sitemap.xml`, and JSON-LD.
+- Root metadata in `src/app/(frontend)/layout.tsx` uses shared defaults, including title templates, robots directives, Open Graph, and Twitter card metadata.
+- Public pages use `createMetadata()` or `createArticleMetadata()` for canonical, Open Graph, and Twitter metadata.
+- `src/app/(frontend)/(site)/sitemap.ts` includes `/`, `/posts`, and published posts from Payload when `DATABASE_URI` is configured.
+- `src/app/robots.ts` allows the public site and disallows `/admin` and `/api`.
+- `StructuredData` renders escaped JSON-LD. The root layout emits WebSite and Organization schema; post pages emit Article and BreadcrumbList schema.
+- Posts include optional `meta.title`, `meta.description`, and `meta.image` fields. If left blank, metadata falls back to the post title, excerpt, hero image, and site defaults.
 
 ## Authentication
 

@@ -12,8 +12,32 @@ import { Users } from '@/collections/Users'
 import { Media } from '@/collections/Media'
 import { Posts } from '@/collections/Posts'
 
+import type { Plugin } from 'payload'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+const vercelBlobClientUploadHandler =
+  '@payloadcms/storage-vercel-blob/client#VercelBlobClientUploadHandler'
+
+const removeDisabledVercelBlobClientUploads: Plugin = (incomingConfig) => {
+  if (!incomingConfig.admin) return incomingConfig
+
+  if (incomingConfig.admin.dependencies?.[vercelBlobClientUploadHandler]) {
+    delete incomingConfig.admin.dependencies[vercelBlobClientUploadHandler]
+  }
+
+  incomingConfig.admin.components ??= {}
+  incomingConfig.admin.components.providers = incomingConfig.admin.components.providers?.filter(
+    (provider) => {
+      if (!provider) return true
+      if (typeof provider === 'string') return provider !== vercelBlobClientUploadHandler
+      if ('path' in provider) return provider.path !== vercelBlobClientUploadHandler
+      return true
+    },
+  )
+
+  return incomingConfig
+}
 
 export default buildConfig({
   admin: {
@@ -43,5 +67,6 @@ export default buildConfig({
       },
       token: process.env.BLOB_READ_WRITE_TOKEN || '',
     }),
+    removeDisabledVercelBlobClientUploads,
   ],
 })

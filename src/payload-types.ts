@@ -136,6 +136,23 @@ export interface Post {
    * Optional lead image displayed at the top of the article.
    */
   heroImage?: (number | null) | Media;
+  /**
+   * Optional search and social overrides. Defaults use the title, excerpt, and hero image.
+   */
+  meta?: {
+    /**
+     * Defaults to the post title.
+     */
+    title?: string | null;
+    /**
+     * Defaults to the excerpt, then the site description.
+     */
+    description?: string | null;
+    /**
+     * Defaults to the hero image, then the default Open Graph image.
+     */
+    image?: (number | null) | Media;
+  };
   content: {
     root: {
       type: string;
@@ -295,6 +312,13 @@ export interface PostsSelect<T extends boolean = true> {
   title?: T;
   excerpt?: T;
   heroImage?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   content?: T;
   slug?: T;
   publishedAt?: T;
